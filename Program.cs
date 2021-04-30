@@ -34,7 +34,7 @@ namespace RhythmsGonnaGetYou
         public int Id { get; set; }
         public int TrackNumber { get; set; }
         public string Title { get; set; }
-        public string Duraction { get; set; }
+        public TimeSpan Duration { get; set; }
 
         public int AlbumId { get; set; }
         public Album Album { get; set; }
@@ -64,6 +64,7 @@ namespace RhythmsGonnaGetYou
             var bands = context.Bands;
             var albums = context.Albums.Include(a => a.Band);
             var songs = context.Songs.Include(s => s.Album);
+
             var keepGoing = true;
             Console.WriteLine("Welcome to Victory Music Company");
 
@@ -80,8 +81,8 @@ namespace RhythmsGonnaGetYou
                 Console.WriteLine("[G] Add a band");
                 Console.WriteLine("[H] Add an album");
                 Console.WriteLine("[I] Add a song");
-                Console.WriteLine("[K] Let a band go");
-                Console.WriteLine("[L] Resign a band");
+                Console.WriteLine("[J] Let a band go");
+                Console.WriteLine("[K] Resign a band");
                 Console.WriteLine("[Q]uit");
                 var menuResponse = Console.ReadLine().ToUpper();
                 Console.WriteLine();
@@ -97,6 +98,10 @@ namespace RhythmsGonnaGetYou
                         {
                             Console.WriteLine($"{band.Name}");
                             Console.WriteLine($"   From {band.CountryOfOrigin}; {band.NumberOfMembers} members; {band.Style} style; website: {band.Website}; contact is {band.ContactName} at {band.ContactPhoneNumber}");
+                        }
+                        if (bands.Count() == 0)
+                        {
+                            Console.WriteLine("No bands");
                         }
                         break;
                     case "B":
@@ -132,6 +137,10 @@ namespace RhythmsGonnaGetYou
                         {
                             Console.WriteLine($"{album.Title}");
                         }
+                        if (bandAlbumList.Count() == 0)
+                        {
+                            Console.WriteLine("No albums");
+                        }
                         break;
                     case "E":
                         var albumsInOrder = albums.OrderBy(album => album.ReleaseDate);
@@ -156,12 +165,31 @@ namespace RhythmsGonnaGetYou
                         }
                         var albumForSongs = Console.ReadLine().ToLower();
                         Console.WriteLine();
-                        var songsFromAlbum = songs.Where(s => s.Album.Title == albumForSongs.ToLower());
+                        var songsFromAlbum = songs.Where(s => s.Album.Title.ToLower() == albumForSongs);
                         foreach (var song in songsFromAlbum)
                         {
                             Console.WriteLine($"{song.TrackNumber}. {song.Title}");
                         }
+                        if (songsFromAlbum.Count() == 0)
+                        {
+                            Console.WriteLine("No songs");
+                        }
 
+                        break;
+                    case "G":
+                        // add a band
+                        break;
+                    case "H":
+                        //add an album
+                        break;
+                    case "I":
+                        // add a song
+                        break;
+                    case "J":
+                        // let a band go
+                        break;
+                    case "K":
+                        //resign a band
                         break;
                     default:
                         Console.WriteLine("Sorry, I don't understand. Please try again.");
