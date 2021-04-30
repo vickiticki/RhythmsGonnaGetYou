@@ -80,6 +80,36 @@ namespace RhythmsGonnaGetYou
                 return 0;
             }
         }
+        static DateTime PromptForDate(string prompt)
+        {
+            Console.Write(prompt);
+            DateTime userInput;
+            var isThisDate = DateTime.TryParse(Console.ReadLine(), out userInput);
+            if (isThisDate)
+            {
+                return userInput;
+            }
+            else
+            {
+                return DateTime.Parse("1990-01-01");
+            }
+        }
+        static TimeSpan PromptForTime(string prompt)
+        {
+            Console.Write(prompt);
+            string inputTime = "00:" + Console.ReadLine();
+            TimeSpan userInput;
+            var isThisTime = TimeSpan.TryParse(inputTime, out userInput);
+            if (isThisTime)
+            {
+                return userInput;
+            }
+            else
+            {
+                Console.WriteLine("Sorry, I don't understand. Entering 1 minute.");
+                return TimeSpan.Parse("00:01:00");
+            }
+        }
         static int PromptForInt(string prompt)
         {
             Console.Write(prompt);
@@ -245,23 +275,66 @@ namespace RhythmsGonnaGetYou
                         context.Bands.Add(newBand);
                         context.SaveChanges();
 
-                        // context.SaveChanges();
                         break;
                     case "H":
                         //add an album
+                        // BandId
+                        var newAlbumBandName = PromptForString("What band is this for? ");
+                        var newAlbumBand = bands.First(band => band.Name.ToLower() == newAlbumBandName.ToLower());
+                        var newAlbumBandId = newAlbumBand.Id;
+                        // Title
+                        var newAlbumTitle = PromptForString("What is the title? ");
+                        // IsExplicit
+                        Console.Write("Is it explicit? Y/N ");
+                        var isItExplicit = Console.ReadLine().ToUpper();
+                        var explicitContent = true;
+                        if (isItExplicit == "N")
+                        {
+                            explicitContent = false;
+                        }
+                        else if (isItExplicit == "Y")
+                        {
+                            Console.WriteLine();
+                        }
+                        else
+                        {
+                            Console.WriteLine("Sorry, that is not a valid answer. Entering explicit.");
+                        }
+                        // ReleaseDate
+                        var newAlbumReleaseDate = PromptForDate("When was it released? Please enter as YYYY-MM-DD ");
 
-                        // var newMovie = new Movie
-                        // {
-                        //   Title = title,
-                        //   PrimaryDirector = primaryDirector,
-                        //   Genre = genre,
-                        //   YearReleased = yearReleased,
-                        //   RatingId = ratingID
-                        // };
-                        // context.Movies.Add(newMovie);
+                        var newAlbum = new Album
+                        {
+                            Title = newAlbumTitle,
+                            IsExplicit = explicitContent,
+                            ReleaseDate = newAlbumReleaseDate,
+                            BandId = newAlbumBandId
+                        };
+                        context.Albums.Add(newAlbum);
+                        context.SaveChanges();
                         break;
                     case "I":
                         // add a song
+                        // AlbumId
+                        var newSongAlbumTitle = PromptForString("What is album is this on? ");
+                        var newSongAlbum = albums.First(album => newSongAlbumTitle.ToLower() == album.Title.ToLower());
+                        var newSongAlbumId = newSongAlbum.Id;
+                        // Title
+                        var newSongTitle = PromptForString("What is the title of the song? ");
+                        // TrackNumber
+                        var newSongTrack = PromptForInt("What track is it? ");
+                        // Duration
+                        var newSongDuration = PromptForTime("How long is it? Please enter as mm:ss ");
+
+                        var newSong = new Song
+                        {
+                            TrackNumber = newSongTrack,
+                            Title = newSongTitle,
+                            Duration = newSongDuration,
+                            AlbumId = newSongAlbumId
+                        };
+                        context.Songs.Add(newSong);
+                        context.SaveChanges();
                         break;
                     case "J":
                         // let a band go
