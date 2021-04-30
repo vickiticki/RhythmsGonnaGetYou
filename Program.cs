@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SuncoastMovies
 {
-
+    // Make band class
     class Band
     {
         public int Id { get; set; }
@@ -17,6 +17,7 @@ namespace SuncoastMovies
         public string ContactName { get; set; }
         public long ContactPhoneNumber { get; set; }
     }
+    // Make album class
     class Album
     {
         public int Id { get; set; }
@@ -27,6 +28,7 @@ namespace SuncoastMovies
         public int BandId { get; set; }
         public Band Band { get; set; }
     }
+    // Make song class
     class Song
     {
         public int Id { get; set; }
@@ -36,6 +38,7 @@ namespace SuncoastMovies
         public int AlbumId { get; set; }
         public Album Album { get; set; }
     }
+    // Connect c# code to database
     // Define a database context for our RGGY database.
     // It derives from (has a parent of) DbContext so we get all the
     // abilities of a database context from EF Core.
@@ -61,7 +64,21 @@ namespace SuncoastMovies
 
             while (keepGoing)
             {
-                Console.WriteLine("Do you want to (D)o Something or (Q)uit?");
+                Console.WriteLine();
+                Console.WriteLine("What would you like to do:");
+                Console.WriteLine("[A] View all bands");
+                Console.WriteLine("[B] View signed bands");
+                Console.WriteLine("[C] View unsigned bands");
+                Console.WriteLine("[D] View albums for a band");
+                Console.WriteLine("[E] View albums by release date");
+                Console.WriteLine("[F] View songs for an album");
+                Console.WriteLine("[G] Add a band");
+                Console.WriteLine("[H] Add an album");
+                Console.WriteLine("[I] Add a song");
+                Console.WriteLine("[K] Let a band go");
+                Console.WriteLine("[L] Resign a band");
+                Console.WriteLine("[Q]uit");
+                Console.WriteLine("[Z] delete this line later");
                 var menuResponse = Console.ReadLine().ToUpper();
 
                 switch (menuResponse)
@@ -70,10 +87,12 @@ namespace SuncoastMovies
                         Console.WriteLine("See ya!");
                         keepGoing = false;
                         break;
-                    case "D":
+                    case "Z":
                         Console.WriteLine("okie dokie");
                         break;
                     default:
+                        Console.WriteLine();
+                        Console.WriteLine("Sorry, I don't understand. Please try again.");
                         break;
                 }
 
