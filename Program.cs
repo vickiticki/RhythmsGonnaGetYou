@@ -33,6 +33,7 @@ namespace RhythmsGonnaGetYou
     {
         public int Id { get; set; }
         public int TrackNumber { get; set; }
+        public string Title { get; set; }
         public string Duraction { get; set; }
 
         public int AlbumId { get; set; }
@@ -124,9 +125,9 @@ namespace RhythmsGonnaGetYou
                         {
                             Console.WriteLine($"{band.Name}");
                         }
-                        var bandName = Console.ReadLine().ToLower();
+                        var bandForAlbum = Console.ReadLine().ToLower();
                         Console.WriteLine();
-                        var bandAlbumList = albums.Where(a => a.Band.Name.ToLower() == bandName);
+                        var bandAlbumList = albums.Where(a => a.Band.Name.ToLower() == bandForAlbum);
                         foreach (var album in bandAlbumList)
                         {
                             Console.WriteLine($"{album.Title}");
@@ -138,6 +139,29 @@ namespace RhythmsGonnaGetYou
                         {
                             Console.WriteLine($"{album.Title} by {album.Band.Name}");
                         }
+                        break;
+                    case "F":
+                        Console.WriteLine("Pick an band: ");
+                        foreach (var band in bands)
+                        {
+                            Console.WriteLine($"{band.Name}");
+                        }
+                        var bandForSongs = Console.ReadLine().ToLower();
+                        Console.WriteLine();
+                        var albumList = albums.Where(a => a.Band.Name.ToLower() == bandForSongs);
+                        Console.WriteLine("Pick an album");
+                        foreach (var album in albumList)
+                        {
+                            Console.WriteLine($"{album.Title}");
+                        }
+                        var albumForSongs = Console.ReadLine().ToLower();
+                        Console.WriteLine();
+                        var songsFromAlbum = songs.Where(s => s.Album.Title == albumForSongs.ToLower());
+                        foreach (var song in songsFromAlbum)
+                        {
+                            Console.WriteLine($"{song.TrackNumber}. {song.Title}");
+                        }
+
                         break;
                     default:
                         Console.WriteLine("Sorry, I don't understand. Please try again.");
