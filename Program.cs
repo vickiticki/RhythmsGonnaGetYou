@@ -17,12 +17,33 @@ namespace SuncoastMovies
         public string ContactName { get; set; }
         public long ContactPhoneNumber { get; set; }
     }
+    class Album
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public bool IsExplicit { get; set; }
+        public DateTime ReleaseDate { get; set; }
+
+        public int BandId { get; set; }
+        public Band Band { get; set; }
+    }
+    class Song
+    {
+        public int Id { get; set; }
+        public int TrackNumber { get; set; }
+        public string Duraction { get; set; }
+
+        public int AlbumId { get; set; }
+        public Album Album { get; set; }
+    }
     // Define a database context for our RGGY database.
     // It derives from (has a parent of) DbContext so we get all the
     // abilities of a database context from EF Core.
     class RhythmsGonnaGetYouContext : DbContext
     {
         public DbSet<Band> Bands { get; set; }
+        public DbSet<Album> Albums { get; set; }
+        public DbSet<Song> Songs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -35,8 +56,28 @@ namespace SuncoastMovies
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("finally");
+            var keepGoing = true;
+            Console.WriteLine("Welcome to Victory Music Company");
 
+            while (keepGoing)
+            {
+                Console.WriteLine("Do you want to (D)o Something or (Q)uit?");
+                var menuResponse = Console.ReadLine().ToUpper();
+
+                switch (menuResponse)
+                {
+                    case "Q":
+                        Console.WriteLine("See ya!");
+                        keepGoing = false;
+                        break;
+                    case "D":
+                        Console.WriteLine("okie dokie");
+                        break;
+                    default:
+                        break;
+                }
+
+            }
 
         }
     }
