@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
-namespace RhythmsGonnaGetYou
+namespace SuncoastMovies
 {
+
     class Band
     {
         public int Id { get; set; }
@@ -14,11 +17,27 @@ namespace RhythmsGonnaGetYou
         public string ContactName { get; set; }
         public long ContactPhoneNumber { get; set; }
     }
+    // Define a database context for our RGGY database.
+    // It derives from (has a parent of) DbContext so we get all the
+    // abilities of a database context from EF Core.
+    class RhythmsGonnaGetYouContext : DbContext
+    {
+        public DbSet<Band> Bands { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            // var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+            // optionsBuilder.UseLoggerFactory(loggerFactory);
+            optionsBuilder.UseNpgsql("server=localhost;database=RhythmsGonnaGetYouDatabase");
+        }
+    }
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to C#");
+            Console.WriteLine("finally");
+
+
         }
     }
 }
