@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
-namespace SuncoastMovies
+namespace RhythmsGonnaGetYou
 {
     // Make band class
     class Band
@@ -61,6 +61,8 @@ namespace SuncoastMovies
         {
             var context = new RhythmsGonnaGetYouContext();
             var bands = context.Bands;
+            var albums = context.Albums.Include(a => a.Band);
+            var songs = context.Songs.Include(s => s.Album);
             var keepGoing = true;
             Console.WriteLine("Welcome to Victory Music Company");
 
@@ -80,7 +82,6 @@ namespace SuncoastMovies
                 Console.WriteLine("[K] Let a band go");
                 Console.WriteLine("[L] Resign a band");
                 Console.WriteLine("[Q]uit");
-                Console.WriteLine("[Z] delete this line later");
                 var menuResponse = Console.ReadLine().ToUpper();
                 Console.WriteLine();
 
@@ -117,8 +118,26 @@ namespace SuncoastMovies
                             }
                         }
                         break;
-                    case "Z":
-                        Console.WriteLine("okie dokie");
+                    case "D":
+                        Console.WriteLine("Pick a band: ");
+                        foreach (var band in bands)
+                        {
+                            Console.WriteLine($"{band.Name}");
+                        }
+                        var bandName = Console.ReadLine().ToLower();
+                        Console.WriteLine();
+                        var bandAlbumList = albums.Where(a => a.Band.Name.ToLower() == bandName);
+                        foreach (var album in bandAlbumList)
+                        {
+                            Console.WriteLine($"{album.Title}");
+                        }
+                        break;
+                    case "E":
+                        var albumsInOrder = albums.OrderBy(album => album.ReleaseDate);
+                        foreach (var album in albumsInOrder)
+                        {
+                            Console.WriteLine($"{album.Title} by {album.Band.Name}");
+                        }
                         break;
                     default:
                         Console.WriteLine("Sorry, I don't understand. Please try again.");
