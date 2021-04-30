@@ -58,6 +58,43 @@ namespace RhythmsGonnaGetYou
     }
     class Program
     {
+        static string PromptForString(string prompt)
+        {
+            Console.Write(prompt);
+
+            return Console.ReadLine();
+
+        }
+        static long PromptForLong(string prompt)
+        {
+            Console.Write(prompt);
+            long userInput;
+            var isThisLong = long.TryParse(Console.ReadLine(), out userInput);
+            if (isThisLong)
+            {
+                return userInput;
+            }
+            else
+            {
+                Console.WriteLine("Not valid number. Entering 0.");
+                return 0;
+            }
+        }
+        static int PromptForInt(string prompt)
+        {
+            Console.Write(prompt);
+            int userInput;
+            var isThisInteger = Int32.TryParse(Console.ReadLine(), out userInput);
+            if (isThisInteger)
+            {
+                return userInput;
+            }
+            else
+            {
+                Console.WriteLine("Not a number. Entering 1.");
+                return 1;
+            }
+        }
         static void Main(string[] args)
         {
             var context = new RhythmsGonnaGetYouContext();
@@ -165,7 +202,7 @@ namespace RhythmsGonnaGetYou
                         }
                         var albumForSongs = Console.ReadLine().ToLower();
                         Console.WriteLine();
-                        var songsFromAlbum = songs.Where(s => s.Album.Title.ToLower() == albumForSongs);
+                        var songsFromAlbum = songs.Where(s => s.Album.Title.ToLower() == albumForSongs).OrderBy(s => s.TrackNumber);
                         foreach (var song in songsFromAlbum)
                         {
                             Console.WriteLine($"{song.TrackNumber}. {song.Title}");
@@ -178,18 +215,83 @@ namespace RhythmsGonnaGetYou
                         break;
                     case "G":
                         // add a band
+                        // Name
+                        var newBandName = PromptForString("What is the band's name? ");
+                        // CountryOfOrigin
+                        var newBandCountry = PromptForString("What country are they from ?");
+                        // NumberOfMembers
+                        var newBandMembers = PromptForInt("How many members are there? ");
+                        // Website
+                        var newBandWebsite = PromptForString("What is their website? ");
+                        // Style
+                        var newBandStyle = PromptForString("What is their style? ");
+                        // IsSigned 
+                        // ContactName
+                        var newBandContactName = PromptForString("Who is their contact? ");
+                        //ContactPhoneNumber
+                        var newBandContactPhone = PromptForLong("What is their phone number? ");
+
+                        var newBand = new Band
+                        {
+                            Name = newBandName,
+                            CountryOfOrigin = newBandCountry,
+                            NumberOfMembers = newBandMembers,
+                            Website = newBandWebsite,
+                            Style = newBandStyle,
+                            IsSigned = true,
+                            ContactName = newBandContactName,
+                            ContactPhoneNumber = newBandContactPhone
+                        };
+                        context.Bands.Add(newBand);
+                        context.SaveChanges();
+
+                        // context.SaveChanges();
                         break;
                     case "H":
                         //add an album
+
+                        // var newMovie = new Movie
+                        // {
+                        //   Title = title,
+                        //   PrimaryDirector = primaryDirector,
+                        //   Genre = genre,
+                        //   YearReleased = yearReleased,
+                        //   RatingId = ratingID
+                        // };
+                        // context.Movies.Add(newMovie);
                         break;
                     case "I":
                         // add a song
                         break;
                     case "J":
                         // let a band go
+                        Console.WriteLine("Which band would you like to let go?");
+                        var bandToLetGo = Console.ReadLine().ToLower();
+                        var goodbyeBand = bands.First(b => b.Name.ToLower() == bandToLetGo);
+                        if (goodbyeBand.IsSigned == true)
+                        {
+                            goodbyeBand.IsSigned = false;
+                            Console.WriteLine($"{goodbyeBand.Name} was let go.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Band already not signed.");
+                        }
                         break;
                     case "K":
                         //resign a band
+                        Console.WriteLine("Which band would you like to resign?");
+                        var bandToResign = Console.ReadLine().ToLower();
+                        var welcomeBack = bands.FirstOrDefault(b => b.Name.ToLower() == bandToResign);
+                        if (welcomeBack.IsSigned == false)
+                        {
+                            welcomeBack.IsSigned = true;
+                            Console.WriteLine($"{welcomeBack.Name} was resigned.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Band was already signed.");
+                        }
                         break;
                     default:
                         Console.WriteLine("Sorry, I don't understand. Please try again.");
