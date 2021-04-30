@@ -59,6 +59,8 @@ namespace SuncoastMovies
     {
         static void Main(string[] args)
         {
+            var context = new RhythmsGonnaGetYouContext();
+            var bands = context.Bands;
             var keepGoing = true;
             Console.WriteLine("Welcome to Victory Music Company");
 
@@ -80,6 +82,7 @@ namespace SuncoastMovies
                 Console.WriteLine("[Q]uit");
                 Console.WriteLine("[Z] delete this line later");
                 var menuResponse = Console.ReadLine().ToUpper();
+                Console.WriteLine();
 
                 switch (menuResponse)
                 {
@@ -87,11 +90,37 @@ namespace SuncoastMovies
                         Console.WriteLine("See ya!");
                         keepGoing = false;
                         break;
+                    case "A":
+                        foreach (var band in bands)
+                        {
+                            Console.WriteLine($"{band.Name}");
+                            Console.WriteLine($"   From {band.CountryOfOrigin}; {band.NumberOfMembers} members; {band.Style} style; website: {band.Website}; contact is {band.ContactName} at {band.ContactPhoneNumber}");
+                        }
+                        break;
+                    case "B":
+                        foreach (var band in bands)
+                        {
+                            if (band.IsSigned == true)
+                            {
+                                Console.WriteLine($"{band.Name}");
+                                Console.WriteLine($"   From {band.CountryOfOrigin}; {band.NumberOfMembers} members; {band.Style} style; website: {band.Website}; contact is {band.ContactName} at {band.ContactPhoneNumber}");
+                            }
+                        }
+                        break;
+                    case "C":
+                        foreach (var band in bands)
+                        {
+                            if (band.IsSigned == false)
+                            {
+                                Console.WriteLine($"{band.Name}");
+                                Console.WriteLine($"   From {band.CountryOfOrigin}; {band.NumberOfMembers} members; {band.Style} style; website: {band.Website}; contact is {band.ContactName} at {band.ContactPhoneNumber}");
+                            }
+                        }
+                        break;
                     case "Z":
                         Console.WriteLine("okie dokie");
                         break;
                     default:
-                        Console.WriteLine();
                         Console.WriteLine("Sorry, I don't understand. Please try again.");
                         break;
                 }
