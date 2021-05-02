@@ -411,6 +411,7 @@ namespace RhythmsGonnaGetYou
                         }
                         break;
                     case "L":
+                        //view members of band
                         Console.WriteLine("Pick a band");
                         Console.WriteLine();
                         foreach (var band in bands)
@@ -445,6 +446,7 @@ namespace RhythmsGonnaGetYou
                         }
                         break;
                     case "N":
+                        // show producers
                         Console.WriteLine("Producers:");
                         foreach (var aProducer in producers)
                         {
