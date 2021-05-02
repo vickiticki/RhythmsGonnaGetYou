@@ -397,8 +397,8 @@ namespace RhythmsGonnaGetYou
                             Console.WriteLine(band.Name);
                         }
                         var bandForMembers = Console.ReadLine().ToLower();
-                        //var thisBandName = bands.First(b => b.Name.ToLower() == bandForMembers);
-                        var membersOfBand = bandMusicians.Where(x => x.Band.Name == bandForMembers);
+                        var thisBandName = bands.First(b => b.Name.ToLower() == bandForMembers);
+                        var membersOfBand = bandMusicians.Where(x => x.BandId == thisBandName.Id);
                         Console.WriteLine();
 
                         foreach (var member in membersOfBand)
