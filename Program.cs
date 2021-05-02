@@ -170,7 +170,7 @@ namespace RhythmsGonnaGetYou
             var musicians = context.Musicians;
             var bandMusicians = context.BandMusicians.Include(b => b.Band).Include(m => m.Musician);
             var producers = context.Producers;
-            var songProducers = context.SongProducers.Include(s => s.Song).(p => p.Producer);
+            var songProducers = context.SongProducers.Include(w => w.Song).Include(p => p.Producer);
 
             var keepGoing = true;
             Console.WriteLine("Welcome to Victory Music Company");
@@ -193,7 +193,7 @@ namespace RhythmsGonnaGetYou
                 Console.WriteLine("[L] View members of a band");
                 Console.WriteLine("[M] View albums in a genre");
                 Console.WriteLine("[N] View producers");
-                //Console.WriteLine("[O] Add musician to band");
+                Console.WriteLine("[O] View songs by a producer");
                 Console.WriteLine("[Q]uit");
                 var menuResponse = Console.ReadLine().ToUpper();
                 Console.WriteLine();
@@ -442,6 +442,24 @@ namespace RhythmsGonnaGetYou
                         if (genreAlbums.Count() == 0)
                         {
                             Console.WriteLine($"There are no {genre} albums.");
+                        }
+                        break;
+                    case "N":
+                        Console.WriteLine("Producers:");
+                        foreach (var aProducer in producers)
+                        {
+                            Console.WriteLine(aProducer.Name);
+
+                        }
+                        break;
+                    case "O":
+                        //show songs by producer
+                        var producerName = PromptForString("Which producers do you want to see? ");
+                        var theSongs = songProducers.Where(pleasework => pleasework.Producer.Name.ToLower() == producerName.ToLower());
+
+                        foreach (var someSong in theSongs)
+                        {
+                            Console.WriteLine(someSong.Song.Title);
                         }
                         break;
                     default:
