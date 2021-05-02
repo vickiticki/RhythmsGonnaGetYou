@@ -39,6 +39,22 @@ namespace RhythmsGonnaGetYou
         public int AlbumId { get; set; }
         public Album Album { get; set; }
     }
+    // Make musician class
+    class Musician
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Instrument { get; set; }
+    }
+    // make bandmusician class (connecting musicians to bands)
+    class BandMusician
+    {
+        public int Id { get; set; }
+        public int BandId { get; set; }
+        public Band Band { get; set; }
+        public int MusicianId { get; set; }
+        public Musician Musician { get; set; }
+    }
     // Connect c# code to database
     // Define a database context for our RGGY database.
     // It derives from (has a parent of) DbContext so we get all the
@@ -48,6 +64,8 @@ namespace RhythmsGonnaGetYou
         public DbSet<Band> Bands { get; set; }
         public DbSet<Album> Albums { get; set; }
         public DbSet<Song> Songs { get; set; }
+        public DbSet<Musician> Musicians { get; set; }
+        public DbSet<BandMusician> BandMusicians { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -151,6 +169,8 @@ namespace RhythmsGonnaGetYou
                 Console.WriteLine("[I] Add a song");
                 Console.WriteLine("[J] Let a band go");
                 Console.WriteLine("[K] Resign a band");
+                Console.WriteLine("[L] View members of a band");
+                Console.WriteLine("[M] View albums in a genre");
                 Console.WriteLine("[Q]uit");
                 var menuResponse = Console.ReadLine().ToUpper();
                 Console.WriteLine();
