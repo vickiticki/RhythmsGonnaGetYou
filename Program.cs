@@ -91,7 +91,8 @@ namespace RhythmsGonnaGetYou
             }
             else
             {
-                return DateTime.Parse("1990-01-01");
+                Console.WriteLine("Sorry, I don't understand. Entering January 1, 2000.");
+                return DateTime.Parse("2000-01-01");
             }
         }
         static TimeSpan PromptForTime(string prompt)
