@@ -55,6 +55,21 @@ namespace RhythmsGonnaGetYou
         public int MusicianId { get; set; }
         public Musician Musician { get; set; }
     }
+    //make producer class
+    class Producer
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+    //make songproducer class (connecting songs to producers)
+    class SongProducer
+    {
+        public int Id { get; set; }
+        public int SongId { get; set; }
+        public Song Song { get; set; }
+        public int ProducerId { get; set; }
+        public Producer Producer { get; set; }
+    }
     // Connect c# code to database
     // Define a database context for our RGGY database.
     // It derives from (has a parent of) DbContext so we get all the
@@ -66,6 +81,8 @@ namespace RhythmsGonnaGetYou
         public DbSet<Song> Songs { get; set; }
         public DbSet<Musician> Musicians { get; set; }
         public DbSet<BandMusician> BandMusicians { get; set; }
+        public DbSet<Producer> Producers { get; set; }
+        public DbSet<SongProducer> SongProducers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -152,6 +169,8 @@ namespace RhythmsGonnaGetYou
             var songs = context.Songs.Include(s => s.Album);
             var musicians = context.Musicians;
             var bandMusicians = context.BandMusicians.Include(b => b.Band).Include(m => m.Musician);
+            var producers = context.Producers;
+            var songProducers = context.SongProducers.Include(s => s.Song).(p => p.Producer);
 
             var keepGoing = true;
             Console.WriteLine("Welcome to Victory Music Company");
@@ -173,7 +192,8 @@ namespace RhythmsGonnaGetYou
                 Console.WriteLine("[K] Resign a band");
                 Console.WriteLine("[L] View members of a band");
                 Console.WriteLine("[M] View albums in a genre");
-                //Console.WriteLine("[N] Add musician to band");
+                Console.WriteLine("[N] View producers");
+                //Console.WriteLine("[O] Add musician to band");
                 Console.WriteLine("[Q]uit");
                 var menuResponse = Console.ReadLine().ToUpper();
                 Console.WriteLine();
