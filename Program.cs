@@ -410,6 +410,19 @@ namespace RhythmsGonnaGetYou
                             Console.WriteLine("There are no members in the system.");
                         }
                         break;
+                    case "M":
+                        //view albums by genre
+                        var genre = PromptForString("What genre would you like to view? ");
+                        var genreAlbums = albums.Where(album => album.Band.Style.ToLower() == genre.ToLower());
+                        foreach (var album in genreAlbums)
+                        {
+                            Console.WriteLine(album.Title + " by " + album.Band.Name);
+                        }
+                        if (genreAlbums.Count() == 0)
+                        {
+                            Console.WriteLine($"There are no {genre} albums.");
+                        }
+                        break;
                     default:
                         Console.WriteLine("Sorry, I don't understand. Please try again.");
                         break;
