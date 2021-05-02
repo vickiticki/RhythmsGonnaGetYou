@@ -173,6 +173,7 @@ namespace RhythmsGonnaGetYou
                 Console.WriteLine("[K] Resign a band");
                 Console.WriteLine("[L] View members of a band");
                 Console.WriteLine("[M] View albums in a genre");
+                //Console.WriteLine("[N] Add musician to band");
                 Console.WriteLine("[Q]uit");
                 var menuResponse = Console.ReadLine().ToUpper();
                 Console.WriteLine();
