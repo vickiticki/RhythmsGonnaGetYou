@@ -150,6 +150,8 @@ namespace RhythmsGonnaGetYou
             var bands = context.Bands;
             var albums = context.Albums.Include(a => a.Band);
             var songs = context.Songs.Include(s => s.Album);
+            var musicians = context.Musicians;
+            var bandMusicians = context.BandMusicians.Include(b => b.Band).Include(m => m.Musician);
 
             var keepGoing = true;
             Console.WriteLine("Welcome to Victory Music Company");
@@ -238,7 +240,7 @@ namespace RhythmsGonnaGetYou
                         }
                         break;
                     case "F":
-                        Console.WriteLine("Pick an band: ");
+                        Console.WriteLine("Pick a band: ");
                         foreach (var band in bands)
                         {
                             Console.WriteLine($"{band.Name}");
@@ -385,6 +387,27 @@ namespace RhythmsGonnaGetYou
                         else
                         {
                             Console.WriteLine("Band was already signed.");
+                        }
+                        break;
+                    case "L":
+                        Console.WriteLine("Pick a band");
+                        Console.WriteLine();
+                        foreach (var band in bands)
+                        {
+                            Console.WriteLine(band.Name);
+                        }
+                        var bandForMembers = Console.ReadLine().ToLower();
+                        //var thisBandName = bands.First(b => b.Name.ToLower() == bandForMembers);
+                        var membersOfBand = bandMusicians.Where(x => x.Band.Name == bandForMembers);
+                        Console.WriteLine();
+
+                        foreach (var member in membersOfBand)
+                        {
+                            Console.WriteLine(member.Musician.Name + " on " + member.Musician.Instrument);
+                        }
+                        if (membersOfBand.Count() == 0)
+                        {
+                            Console.WriteLine("There are no members in the system.");
                         }
                         break;
                     default:
